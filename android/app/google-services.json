@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "57150771059",
+    "project_id": "glass-app-acb97",
+    "storage_bucket": "glass-app-acb97.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57150771059:android:31c771d8bf449ff0bb7f06",
+        "android_client_info": {
+          "package_name": "com.example.project_glass"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_7jYeUZz3V1dNIXVHEelmT02QNbm5BVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
