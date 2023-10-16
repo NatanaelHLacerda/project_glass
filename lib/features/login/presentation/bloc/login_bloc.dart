@@ -3,22 +3,22 @@ import 'package:project_glass/core/bloc/bloc.dart';
 import 'package:project_glass/core/bloc/bloc_state.dart';
 import 'package:project_glass/core/bloc/event.dart';
 import 'package:project_glass/core/utils/string_translator.dart';
-import 'package:project_glass/features/register/domain/usecases/signup_usecase_impl.dart';
-import 'package:project_glass/features/register/presentation/bloc/register_event.dart';
+import 'package:project_glass/features/login/domain/usecases/signin_usecase_impl.dart';
+import 'package:project_glass/features/login/presentation/bloc/login_event.dart';
 
-class RegisterBloc extends Bloc {
-  SignupUseCaseImpl signUp;
+class LoginBloc extends Bloc {
+  SignInUsecaseImpl signInUsecaseImpl;
 
-  RegisterBloc(this.signUp);
+  LoginBloc(this.signInUsecaseImpl);
 
   @override
   mapListenEvent(Event event) {
-    if (event is RegisterOnReadyEvent) {
+    if (event is LoginOnReadyEvent) {
       _handleOnReady();
-    } else if (event is SignUpEvent) {
-      _handleSignUp(event.email, event.password, event.context, event.key);
-    } else if (event is RegisterNavigatePop) {
-      _handleNavigatePop(event.context);
+    } else if (event is LoginNavigateFeatureUntilEvent) {
+      _handleNavigateUntilFeature(event.context);
+    } else if (event is SignInEvent) {
+      _handleSignIn(event.email, event.password, event.context, event.key);
     }
   }
 
@@ -26,23 +26,24 @@ class RegisterBloc extends Bloc {
     dispatchState(BlocStableState(data: null));
   }
 
-  Future _handleSignUp(
+  Future _handleSignIn(
       String email, String password, context, GlobalKey<FormState> key) async {
     if (key.currentState?.validate() ?? false) {
       try {
-        await signUp.signUp(email, password);
+        await signInUsecaseImpl.signIn(email, password);
 
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Usuário criado com sucesso!')));
+            const SnackBar(content: Text('Usuario logado com sucesso!')));
       } on Exception catch (e) {
-        print(e.toString());
+
+
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(StringTranslator.build(e.toString()))));
       }
     }
   }
 
-  _handleNavigatePop(context) {
-    Navigator.pop(context);
+  _handleNavigateUntilFeature(context) {
+    Navigator.of(context).pushNamed('/register');
   }
 }

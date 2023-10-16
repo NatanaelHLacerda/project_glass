@@ -51,6 +51,8 @@ class _RegisterViewStableStateState extends State<RegisterViewStableState> {
                 height: 20,
               ),
               TextFormField(
+                validator: (value) =>
+                    FormBuilderValidator.passwordValidate(value),
                 controller: passwordController,
                 obscureText: visibily,
                 decoration: InputDecoration(
@@ -76,23 +78,22 @@ class _RegisterViewStableStateState extends State<RegisterViewStableState> {
                 child: ElevatedButton(
                     onPressed: () {
                       widget.bloc.dispatchEvent(
-                      SignUpEvent(
-                        email: emailController.text,
-                        password: passwordController.text,
-                        context: context,
-                        key: _globalKey,
-                      ),
-                    );
-                    }, child: const Text('Registre-se')),
+                        SignUpEvent(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          context: context,
+                          key: _globalKey,
+                        ),
+                      );
+                    },
+                    child: const Text('Registre-se')),
               ),
               const SizedBox(
                 height: 20,
               ),
-              TextButton(
-                  onPressed: () {
-                    
-                  },
-                  child: const Text('Faça Login'))
+              TextButton(onPressed: () {
+                widget.bloc.dispatchEvent(RegisterNavigatePop(context: context));
+              }, child: const Text('Faça Login'))
             ],
           ),
         ),

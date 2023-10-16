@@ -17,3 +17,9 @@ class SignUpEvent implements RegisterEvent {
       required this.context,
       required this.key});
 }
+
+class RegisterNavigatePop implements Event {
+  final BuildContext context;
+
+  RegisterNavigatePop({required this.context});
+}
