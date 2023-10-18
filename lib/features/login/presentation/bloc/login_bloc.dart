@@ -3,13 +3,16 @@ import 'package:project_glass/core/bloc/bloc.dart';
 import 'package:project_glass/core/bloc/bloc_state.dart';
 import 'package:project_glass/core/bloc/event.dart';
 import 'package:project_glass/core/utils/string_translator.dart';
+import 'package:project_glass/features/home/presentation/ui/home_view.dart';
 import 'package:project_glass/features/login/domain/usecases/signin_usecase_impl.dart';
 import 'package:project_glass/features/login/presentation/bloc/login_event.dart';
 
 class LoginBloc extends Bloc {
   SignInUsecaseImpl signInUsecaseImpl;
 
-  LoginBloc(this.signInUsecaseImpl);
+  LoginBloc(
+    this.signInUsecaseImpl,
+  );
 
   @override
   mapListenEvent(Event event) {
@@ -34,9 +37,10 @@ class LoginBloc extends Bloc {
 
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Usuario logado com sucesso!')));
+
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => const HomeView())));
       } on Exception catch (e) {
-
-
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(StringTranslator.build(e.toString()))));
       }

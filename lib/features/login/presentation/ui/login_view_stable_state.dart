@@ -40,7 +40,7 @@ class _LoginViewStableStateState extends State<LoginViewStableState> {
                 validator: (value) => FormBuilderValidator.emailValidate(value),
                 controller: emailController,
                 decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.email),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
                     labelText: 'E-mail'),
@@ -54,7 +54,7 @@ class _LoginViewStableStateState extends State<LoginViewStableState> {
                     FormBuilderValidator.passwordValidate(value),
                 controller: passwordController,
                 decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                         onPressed: () {
                           visibility = !visibility;
