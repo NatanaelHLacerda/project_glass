@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:project_glass/core/bloc/bloc_state.dart';
+import 'package:project_glass/core/routes/const_routes.dart';
+import 'package:project_glass/core/services/auth_service.dart';
 import 'package:project_glass/features/home/data/datasources/remote/home_datasources_impl.dart';
 import 'package:project_glass/features/home/data/repositories/home_repository_impl.dart';
 import 'package:project_glass/features/home/domain/usecases/add_contact_usecase_impl.dart';
 import 'package:project_glass/features/home/domain/usecases/edit_contact_usecase_impl.dart';
 import 'package:project_glass/features/home/domain/usecases/get_contacts_usecase_impl.dart';
+import 'package:project_glass/features/home/domain/usecases/logout_user_usecase_impl.dart';
 import 'package:project_glass/features/home/domain/usecases/remove_contact_usecase_impl.dart';
 import 'package:project_glass/features/home/presentation/bloc/home_bloc.dart';
 import 'package:project_glass/features/home/presentation/bloc/home_event.dart';
@@ -22,10 +25,11 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   HomeBloc bloc = HomeBloc(
-    GetContactsUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl())),
-    AddContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl())),
-    RemoveContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl())),
-    EditContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl())),
+    GetContactsUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
+    AddContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
+    RemoveContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
+    EditContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
+    LogoutUserUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes())))
   );
 
   late TextEditingController nameController;
@@ -47,6 +51,15 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home contacts'),
+        actions: [
+          IconButton(
+              onPressed: () =>
+                  bloc.dispatchEvent(HomeEventLogoutUser(context)),
+              icon: const Icon(Icons.logout))
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => bloc.dispatchEvent(HomeEventShowCustomDialog(
             context: context,

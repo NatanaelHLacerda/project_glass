@@ -38,3 +38,9 @@ class HomeEventShowCustomDialog extends HomeEvent {
     required this.dialog,
   });
 }
+
+class HomeEventLogoutUser extends HomeEvent {
+  final BuildContext context;
+
+  HomeEventLogoutUser(this.context);
+}

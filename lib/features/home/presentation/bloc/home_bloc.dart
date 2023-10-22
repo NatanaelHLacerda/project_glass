@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:project_glass/core/bloc/bloc.dart';
@@ -10,6 +11,7 @@ import 'package:project_glass/features/home/data/model/contact_model.dart';
 import 'package:project_glass/features/home/domain/usecases/add_contact_usecase_impl.dart';
 import 'package:project_glass/features/home/domain/usecases/edit_contact_usecase_impl.dart';
 import 'package:project_glass/features/home/domain/usecases/get_contacts_usecase_impl.dart';
+import 'package:project_glass/features/home/domain/usecases/logout_user_usecase_impl.dart';
 import 'package:project_glass/features/home/domain/usecases/remove_contact_usecase_impl.dart';
 import 'package:project_glass/features/home/presentation/bloc/home_event.dart';
 
@@ -18,6 +20,7 @@ class HomeBloc extends Bloc {
   AddContactUsecaseImpl addContactUsecaseImpl;
   RemoveContactUsecaseImpl removeContactUsecaseImpl;
   EditContactUsecaseImpl editContactUsecaseImpl;
+  LogoutUserUsecaseImpl logoutUserUsecaseImpl;
 
   late List<ContactModel> listContacts;
 
@@ -26,6 +29,7 @@ class HomeBloc extends Bloc {
     this.addContactUsecaseImpl,
     this.removeContactUsecaseImpl,
     this.editContactUsecaseImpl,
+    this.logoutUserUsecaseImpl,
   ) {
     listContacts = [];
   }
@@ -42,10 +46,17 @@ class HomeBloc extends Bloc {
       _handleEditContact(event.params);
     } else if (event is HomeEventShowCustomDialog) {
       _handleShowDialog(event.context, event.dialog);
+    } else if (event is HomeEventLogoutUser) {
+      _handleLogoutUser(event.context);
     }
   }
 
-  Future _handleShowDialog(BuildContext context, Widget dialog) async{
+  Future _handleLogoutUser(BuildContext context) async {
+    final result = await logoutUserUsecaseImpl.logoutUser();
+    Navigator.pushNamedAndRemoveUntil(context, result, (route) => false);
+  }
+
+  Future _handleShowDialog(BuildContext context, Widget dialog) async {
     return showDialog(context: context, builder: (context) => dialog);
   }
 
@@ -95,8 +106,7 @@ class HomeBloc extends Bloc {
   Future _handleEditContact(EditContactParams params) async {
     if (params.key.currentState?.validate() ?? false) {
       try {
-        final contactModel =
-            await editContactUsecaseImpl.editContact(params);
+        final contactModel = await editContactUsecaseImpl.editContact(params);
 
         listContacts.removeAt(params.index);
         listContacts.insert(params.index, contactModel);

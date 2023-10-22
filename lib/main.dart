@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: RoutesBuilder.builder(constRoutes),
-      initialRoute: constRoutes.loginView,
+      initialRoute: constRoutes.splashView,
       debugShowCheckedModeBanner: false,
     );
   }

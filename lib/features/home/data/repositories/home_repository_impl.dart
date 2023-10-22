@@ -28,4 +28,9 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<ContactModel> editContact(EditContactParams params) {
     return dataSources.editContact(params);
   }
+  
+  @override
+  Future<String> logoutUser() {
+    return dataSources.logoutUser();
+  }
 }

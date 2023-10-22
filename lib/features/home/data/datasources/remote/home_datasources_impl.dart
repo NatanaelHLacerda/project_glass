@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_glass/core/params/contact_params.dart';
 import 'package:project_glass/core/params/edit_contact_params.dart';
+import 'package:project_glass/core/routes/const_routes.dart';
+import 'package:project_glass/core/services/auth_service.dart';
 import 'package:project_glass/features/home/data/datasources/home_datasources.dart';
 import 'package:project_glass/features/home/data/model/contact_model.dart';
 
 class HomeDataSourcesImpl implements HomeDataSources {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  final AuthService auth;
+  final ConstRoutes routes;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
 
+  HomeDataSourcesImpl({required this.auth, required this.routes});
+  
   @override
   Future<List<ContactModel>> getContacts() async {
     final contacts = await db
         .collection('users')
-        .doc(auth.currentUser!.uid)
+        .doc(auth.auth.currentUser!.uid)
         .collection('contacts')
         .get();
 
@@ -27,12 +31,12 @@ class HomeDataSourcesImpl implements HomeDataSources {
   Future<ContactModel> addContact(ContactParams params) async {
     final doc = db
         .collection('users')
-        .doc(auth.currentUser!.uid)
+        .doc(auth.auth.currentUser!.uid)
         .collection('contacts')
         .doc();
 
-    final contactModel = ContactModel(
-        name: params.nome, phone: params.phone, id: doc.id);
+    final contactModel =
+        ContactModel(name: params.nome, phone: params.phone, id: doc.id);
 
     doc.set(toMap(contactModel));
 
@@ -43,27 +47,31 @@ class HomeDataSourcesImpl implements HomeDataSources {
   Future<void> removeContact(String id) async {
     return await db
         .collection('users')
-        .doc(auth.currentUser!.uid)
+        .doc(auth.auth.currentUser!.uid)
         .collection('contacts')
         .doc(id)
         .delete();
   }
 
   @override
-  Future<ContactModel> editContact(
-      EditContactParams params) async {
-    final contactEdited = ContactModel(
-        name: params.name,
-        phone: params.phone,
-        id: params.id);
+  Future<ContactModel> editContact(EditContactParams params) async {
+    final contactEdited =
+        ContactModel(name: params.name, phone: params.phone, id: params.id);
 
     await db
         .collection('users')
-        .doc(auth.currentUser!.uid)
+        .doc(auth.auth.currentUser!.uid)
         .collection('contacts')
         .doc(params.id)
         .update(toMap(contactEdited));
 
     return contactEdited;
+  }
+
+  @override
+  Future<String> logoutUser() async {
+    await auth.auth.signOut();
+
+    return routes.loginView;
   }
 }

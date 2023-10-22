@@ -10,4 +10,6 @@ abstract class HomeRepository{
   Future<void> removeContact(String id);
 
   Future<ContactModel> editContact(EditContactParams params);
+
+  Future<String> logoutUser();
 }
