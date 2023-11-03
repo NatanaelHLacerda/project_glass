@@ -1,19 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project_glass/core/services/auth_service.dart';
+import 'package:project_glass/core/services/database_service.dart';
 import 'package:project_glass/features/register/data/datasources/register_datasources.dart';
 
 class RegisterDatasourcesImpl implements RegisterDataSources {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore dataBase = FirebaseFirestore.instance;
+  final AuthService authService;
+  final DatabaseService databaseService;
+
+  RegisterDatasourcesImpl(this.authService, this.databaseService);
 
   @override
   Future signUp(String email, String password) async {
-    final futureUser = await auth.createUserWithEmailAndPassword(
+    final futureUser = await authService.instance.createUserWithEmailAndPassword(
         email: email, password: password);
 
     if (futureUser.user != null) {
-      final usersCollection = dataBase.collection('users');
-      usersCollection.doc(auth.currentUser!.uid).set({'email': email});
+      final usersCollection = databaseService.instance.collection('users');
+      usersCollection.doc(authService.instance.currentUser!.uid).set({'email': email});
     }
   }
 }

@@ -1,23 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_glass/core/params/contact_params.dart';
 import 'package:project_glass/core/params/edit_contact_params.dart';
 import 'package:project_glass/core/routes/const_routes.dart';
 import 'package:project_glass/core/services/auth_service.dart';
+import 'package:project_glass/core/services/database_service.dart';
 import 'package:project_glass/features/home/data/datasources/home_datasources.dart';
 import 'package:project_glass/features/home/data/model/contact_model.dart';
 
 class HomeDataSourcesImpl implements HomeDataSources {
-  final AuthService auth;
+  final AuthService authService;
   final ConstRoutes routes;
-  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final DatabaseService databaseService;
 
-  HomeDataSourcesImpl({required this.auth, required this.routes});
-  
+  HomeDataSourcesImpl(this.authService, this.databaseService, this.routes);
+
   @override
   Future<List<ContactModel>> getContacts() async {
-    final contacts = await db
+    final contacts = await databaseService.instance
         .collection('users')
-        .doc(auth.auth.currentUser!.uid)
+        .doc(authService.instance.currentUser!.uid)
         .collection('contacts')
         .get();
 
@@ -29,9 +29,9 @@ class HomeDataSourcesImpl implements HomeDataSources {
 
   @override
   Future<ContactModel> addContact(ContactParams params) async {
-    final doc = db
+    final doc = databaseService.instance
         .collection('users')
-        .doc(auth.auth.currentUser!.uid)
+        .doc(authService.instance.currentUser!.uid)
         .collection('contacts')
         .doc();
 
@@ -45,9 +45,9 @@ class HomeDataSourcesImpl implements HomeDataSources {
 
   @override
   Future<void> removeContact(String id) async {
-    return await db
+    return await databaseService.instance
         .collection('users')
-        .doc(auth.auth.currentUser!.uid)
+        .doc(authService.instance.currentUser!.uid)
         .collection('contacts')
         .doc(id)
         .delete();
@@ -58,9 +58,9 @@ class HomeDataSourcesImpl implements HomeDataSources {
     final contactEdited =
         ContactModel(name: params.name, phone: params.phone, id: params.id);
 
-    await db
+    await databaseService.instance
         .collection('users')
-        .doc(auth.auth.currentUser!.uid)
+        .doc(authService.instance.currentUser!.uid)
         .collection('contacts')
         .doc(params.id)
         .update(toMap(contactEdited));
@@ -70,7 +70,7 @@ class HomeDataSourcesImpl implements HomeDataSources {
 
   @override
   Future<String> logoutUser() async {
-    await auth.auth.signOut();
+    await authService.instance.signOut();
 
     return routes.loginView;
   }

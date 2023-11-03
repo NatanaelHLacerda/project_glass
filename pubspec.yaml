@@ -41,6 +41,7 @@ dependencies:
   string_validator: ^1.0.2
   mask_text_input_formatter: ^2.5.0
   lottie: ^2.6.0
+  get_it: ^7.6.4
 
 dev_dependencies:
   flutter_test:

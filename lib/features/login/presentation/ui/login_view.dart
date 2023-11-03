@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_glass/core/bloc/bloc_state.dart';
-import 'package:project_glass/features/login/data/datasources/remote/login_datasources_impl.dart';
-import 'package:project_glass/features/login/data/repositories/login_repository_impl.dart';
-import 'package:project_glass/features/login/domain/usecases/signin_usecase_impl.dart';
+import 'package:get_it/get_it.dart';
+import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
 import 'package:project_glass/features/login/presentation/bloc/login_bloc.dart';
 import 'package:project_glass/features/login/presentation/bloc/login_event.dart';
 import 'package:project_glass/features/login/presentation/ui/login_view_stable_state.dart';
@@ -15,11 +13,11 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  LoginBloc bloc =
-      LoginBloc(SignInUsecaseImpl(LoginRepositoryImpl(LoginDatasourcesImpl())));
+  late LoginBloc bloc;
 
   @override
   void initState() {
+    bloc = GetIt.I.get();
     bloc.dispatchEvent(LoginOnReadyEvent());
     super.initState();
   }

@@ -5,7 +5,7 @@ import 'package:project_glass/features/home/data/model/contact_model.dart';
 import 'package:project_glass/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
-  HomeDataSources dataSources;
+  final HomeDataSources dataSources;
 
   HomeRepositoryImpl(this.dataSources);
 

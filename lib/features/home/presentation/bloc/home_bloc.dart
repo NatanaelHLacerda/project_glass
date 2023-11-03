@@ -1,35 +1,33 @@
 import 'dart:developer';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:project_glass/core/bloc/bloc.dart';
-import 'package:project_glass/core/bloc/bloc_state.dart';
-import 'package:project_glass/core/bloc/event.dart';
+import 'package:project_glass/core/architecture/bloc/bloc.dart';
+import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
+import 'package:project_glass/core/architecture/bloc/event.dart';
 import 'package:project_glass/core/params/contact_params.dart';
 import 'package:project_glass/core/params/edit_contact_params.dart';
 import 'package:project_glass/features/home/data/model/contact_model.dart';
-import 'package:project_glass/features/home/domain/usecases/add_contact_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/edit_contact_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/get_contacts_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/logout_user_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/remove_contact_usecase_impl.dart';
+import 'package:project_glass/features/home/domain/usecases/add_contact_usecase.dart';
+import 'package:project_glass/features/home/domain/usecases/edit_contact_usecase.dart';
+import 'package:project_glass/features/home/domain/usecases/get_contacts_usecase.dart';
+import 'package:project_glass/features/home/domain/usecases/logout_user_usecase.dart';
+import 'package:project_glass/features/home/domain/usecases/remove_contact_usecase.dart';
 import 'package:project_glass/features/home/presentation/bloc/home_event.dart';
 
 class HomeBloc extends Bloc {
-  GetContactsUsecaseImpl getContactsUsecaseImpl;
-  AddContactUsecaseImpl addContactUsecaseImpl;
-  RemoveContactUsecaseImpl removeContactUsecaseImpl;
-  EditContactUsecaseImpl editContactUsecaseImpl;
-  LogoutUserUsecaseImpl logoutUserUsecaseImpl;
+  GetContactsUsecase getContactsUsecase;
+  AddContactUsecase addContactUsecase;
+  RemoveContactUsecase removeContactUsecase;
+  EditContactUsecase editContactUsecase;
+  LogoutUserUsecase logoutUserUsecase;
 
   late List<ContactModel> listContacts;
 
   HomeBloc(
-    this.getContactsUsecaseImpl,
-    this.addContactUsecaseImpl,
-    this.removeContactUsecaseImpl,
-    this.editContactUsecaseImpl,
-    this.logoutUserUsecaseImpl,
+    this.getContactsUsecase,
+    this.addContactUsecase,
+    this.removeContactUsecase,
+    this.editContactUsecase,
+    this.logoutUserUsecase,
   ) {
     listContacts = [];
   }
@@ -52,7 +50,7 @@ class HomeBloc extends Bloc {
   }
 
   Future _handleLogoutUser(BuildContext context) async {
-    final result = await logoutUserUsecaseImpl.logoutUser();
+    final result = await logoutUserUsecase.logoutUser();
     Navigator.pushNamedAndRemoveUntil(context, result, (route) => false);
   }
 
@@ -61,7 +59,7 @@ class HomeBloc extends Bloc {
   }
 
   Future _handleGetContacts() async {
-    await getContactsUsecaseImpl.getContacts().then((value) {
+    await getContactsUsecase.getContacts().then((value) {
       listContacts = value;
 
       if (value.isEmpty) {
@@ -76,7 +74,7 @@ class HomeBloc extends Bloc {
   Future _handleAddContact(ContactParams params) async {
     if (params.key.currentState?.validate() ?? false) {
       try {
-        final contact = await addContactUsecaseImpl.addContact(params);
+        final contact = await addContactUsecase.addContact(params);
 
         listContacts.add(contact);
         inspect(listContacts);
@@ -93,20 +91,19 @@ class HomeBloc extends Bloc {
 
   Future<void> _handleRemoveContact(ContactModel contactModel) async {
     try {
-      await removeContactUsecaseImpl.removeContact(contactModel.id);
+      await removeContactUsecase.removeContact(contactModel.id);
 
       listContacts.remove(contactModel);
 
       dispatchState(BlocStableState(data: listContacts));
     } on Exception catch (e) {
-      print(e.toString());
     }
   }
 
   Future _handleEditContact(EditContactParams params) async {
     if (params.key.currentState?.validate() ?? false) {
       try {
-        final contactModel = await editContactUsecaseImpl.editContact(params);
+        final contactModel = await editContactUsecase.editContact(params);
 
         listContacts.removeAt(params.index);
         listContacts.insert(params.index, contactModel);

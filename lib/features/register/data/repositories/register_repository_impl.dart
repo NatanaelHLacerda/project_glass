@@ -3,7 +3,7 @@ import 'package:project_glass/features/register/domain/repositories/register_rep
 
 class RegisterRepositoryImpl implements RegisterRepository {
 
-  RegisterDataSources dataSources;
+  final RegisterDataSources dataSources;
 
   RegisterRepositoryImpl(this.dataSources);
 

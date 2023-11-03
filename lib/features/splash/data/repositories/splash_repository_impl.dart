@@ -3,7 +3,7 @@ import 'package:project_glass/features/splash/domain/repository/splash_repositor
 
 class SplashRepositoryImpl implements SplashRepository{
 
-  SplashDataSource dataSource;
+  final SplashDataSource dataSource;
 
   SplashRepositoryImpl(this.dataSource);
 

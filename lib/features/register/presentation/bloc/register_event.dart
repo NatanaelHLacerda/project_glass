@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_glass/core/bloc/event.dart';
+import 'package:project_glass/core/architecture/bloc/event.dart';
 
 class RegisterEvent extends Event {}
 

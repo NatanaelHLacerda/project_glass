@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_glass/core/bloc/bloc_state.dart';
-import 'package:project_glass/core/routes/const_routes.dart';
-import 'package:project_glass/core/services/auth_service.dart';
-import 'package:project_glass/features/home/data/datasources/remote/home_datasources_impl.dart';
-import 'package:project_glass/features/home/data/repositories/home_repository_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/add_contact_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/edit_contact_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/get_contacts_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/logout_user_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/remove_contact_usecase_impl.dart';
+import 'package:get_it/get_it.dart';
+import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
 import 'package:project_glass/features/home/presentation/bloc/home_bloc.dart';
 import 'package:project_glass/features/home/presentation/bloc/home_event.dart';
 import 'package:project_glass/features/home/presentation/ui/home_view_empty_state.dart';
@@ -24,13 +16,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  HomeBloc bloc = HomeBloc(
-    GetContactsUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
-    AddContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
-    RemoveContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
-    EditContactUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes()))),
-    LogoutUserUsecaseImpl(HomeRepositoryImpl(HomeDataSourcesImpl(auth: AuthService(), routes: ConstRoutes())))
-  );
+  late HomeBloc bloc;
 
   late TextEditingController nameController;
   late TextEditingController phoneController;
@@ -41,6 +27,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
+
+    bloc = GetIt.I.get();
+
     nameController = TextEditingController();
     phoneController = TextEditingController();
 

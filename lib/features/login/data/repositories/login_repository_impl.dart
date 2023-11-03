@@ -2,7 +2,7 @@ import 'package:project_glass/features/login/data/datasources/login_datasources.
 import 'package:project_glass/features/login/domain/repositories/login_repository.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
-  LoginDatasources datasources;
+  final LoginDatasources datasources;
 
   LoginRepositoryImpl(this.datasources);
 

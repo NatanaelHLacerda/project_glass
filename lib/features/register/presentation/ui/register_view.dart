@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_glass/core/bloc/bloc_state.dart';
-import 'package:project_glass/features/register/data/datasources/remote/register_datasources_impl.dart';
-import 'package:project_glass/features/register/data/repositories/register_repository_impl.dart';
-import 'package:project_glass/features/register/domain/usecases/signup_usecase_impl.dart';
+import 'package:get_it/get_it.dart';
+import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
 import 'package:project_glass/features/register/presentation/bloc/register_bloc.dart';
 import 'package:project_glass/features/register/presentation/bloc/register_event.dart';
 import 'package:project_glass/features/register/presentation/ui/register_view_stable_state.dart';
@@ -15,11 +13,11 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  RegisterBloc bloc = RegisterBloc(
-      SignupUseCaseImpl(RegisterRepositoryImpl(RegisterDatasourcesImpl())));
+  late RegisterBloc bloc;
 
   @override
   void initState() {
+    bloc = GetIt.I.get();
     bloc.dispatchEvent(RegisterOnReadyEvent());
     super.initState();
   }

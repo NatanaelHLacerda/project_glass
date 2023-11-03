@@ -3,7 +3,7 @@ import 'package:project_glass/core/params/contact_params.dart';
 import 'package:project_glass/core/params/edit_contact_params.dart';
 import 'package:project_glass/features/home/data/model/contact_model.dart';
 
-import '../../../../core/bloc/event.dart';
+import '../../../../core/architecture/bloc/event.dart';
 
 class HomeEvent extends Event {}
 

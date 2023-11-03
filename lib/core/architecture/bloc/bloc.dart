@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:project_glass/core/bloc/bloc_state.dart';
-import 'package:project_glass/core/bloc/event.dart';
+import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
+import 'package:project_glass/core/architecture/bloc/event.dart';
 
 abstract class Bloc {
   late StreamController<BlocState> _state;

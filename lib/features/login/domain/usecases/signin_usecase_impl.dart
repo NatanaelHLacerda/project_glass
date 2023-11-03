@@ -2,7 +2,7 @@ import 'package:project_glass/features/login/domain/repositories/login_repositor
 import 'package:project_glass/features/login/domain/usecases/signin_usecase.dart';
 
 class SignInUsecaseImpl implements SignInUsecase {
-  LoginRepository repository;
+  final LoginRepository repository;
 
   SignInUsecaseImpl(this.repository);
 

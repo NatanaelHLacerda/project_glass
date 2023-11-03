@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:project_glass/core/bloc/bloc.dart';
-import 'package:project_glass/core/bloc/bloc_state.dart';
-import 'package:project_glass/core/bloc/event.dart';
+import 'package:project_glass/core/architecture/bloc/bloc.dart';
+import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
+import 'package:project_glass/core/architecture/bloc/event.dart';
 import 'package:project_glass/core/utils/string_translator.dart';
-import 'package:project_glass/features/register/domain/usecases/signup_usecase_impl.dart';
+import 'package:project_glass/features/register/domain/usecases/signup_usecase.dart';
 import 'package:project_glass/features/register/presentation/bloc/register_event.dart';
 
 class RegisterBloc extends Bloc {
-  SignupUseCaseImpl signUp;
+  final SignUpUsecase signUp;
 
   RegisterBloc(this.signUp);
 
@@ -35,7 +35,6 @@ class RegisterBloc extends Bloc {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Usuário criado com sucesso!')));
       } on Exception catch (e) {
-        print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(StringTranslator.build(e.toString()))));
       }

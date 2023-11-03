@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:project_glass/core/bloc/bloc.dart';
-import 'package:project_glass/core/bloc/bloc_state.dart';
-import 'package:project_glass/core/bloc/event.dart';
-import 'package:project_glass/features/splash/domain/usecases/credentials_verification_usecase_impl.dart';
+import 'package:project_glass/core/architecture/bloc/bloc.dart';
+import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
+import 'package:project_glass/core/architecture/bloc/event.dart';
+import 'package:project_glass/features/splash/domain/usecases/crendetials_verification_usecase.dart';
 import 'package:project_glass/features/splash/presentation/bloc/splash_event.dart';
 
 class SplashBloc extends Bloc {
-  final CredentialsVerificationUsecaseImpl credentialsVerificationUsecaseImpl;
+  final CredentialsVerificationUsecase credentialsVerificationUsecase;
 
   SplashBloc(
-    this.credentialsVerificationUsecaseImpl,
+    this.credentialsVerificationUsecase,
   );
 
   @override
@@ -27,7 +27,7 @@ class SplashBloc extends Bloc {
 
   Future _handleCredentialsVerification(BuildContext context) async {
     final result =
-        await credentialsVerificationUsecaseImpl.credentialsVerification();
+        await credentialsVerificationUsecase.credentialsVerification();
 
     Navigator.pushNamedAndRemoveUntil(context, result, (route) => false);
   }
