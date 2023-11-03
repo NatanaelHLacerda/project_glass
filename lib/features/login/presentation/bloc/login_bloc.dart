@@ -3,7 +3,7 @@ import 'package:project_glass/core/architecture/bloc/bloc.dart';
 import 'package:project_glass/core/architecture/bloc/bloc_state.dart';
 import 'package:project_glass/core/architecture/bloc/event.dart';
 import 'package:project_glass/core/utils/string_translator.dart';
-import 'package:project_glass/features/home/presentation/ui/home_view.dart';
+import 'package:project_glass/features/budgets/presentation/ui/budgets_view.dart';
 import 'package:project_glass/features/login/domain/usecases/signin_usecase.dart';
 import 'package:project_glass/features/login/presentation/bloc/login_event.dart';
 
@@ -39,7 +39,7 @@ class LoginBloc extends Bloc {
             const SnackBar(content: Text('Usuario logado com sucesso!')));
 
         Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => const HomeView())));
+            context, MaterialPageRoute(builder: ((context) => const BudgetsView())));
       } on Exception catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(StringTranslator.build(e.toString()))));

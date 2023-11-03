@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-class ContactParams {
+class BudgetParams {
   final String nome;
   final String phone;
   final GlobalKey<FormState> key;
   final BuildContext context;
 
-  ContactParams({
+  BudgetParams({
     required this.nome,
     required this.phone,
     required this.key,

@@ -14,7 +14,7 @@ class SplashDataSourceImpl implements SplashDataSource {
   @override
   Future credentialsVerification() async{
     if (authService.instance.currentUser != null) {
-      return routes.homeView;
+      return routes.budgetsView;
     } else {
       return routes.loginView;
     }

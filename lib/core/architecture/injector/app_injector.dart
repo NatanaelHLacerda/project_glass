@@ -2,21 +2,21 @@ import 'package:get_it/get_it.dart';
 import 'package:project_glass/core/routes/const_routes.dart';
 import 'package:project_glass/core/services/auth_service.dart';
 import 'package:project_glass/core/services/database_service.dart';
-import 'package:project_glass/features/home/data/datasources/home_datasources.dart';
-import 'package:project_glass/features/home/data/datasources/remote/home_datasources_impl.dart';
-import 'package:project_glass/features/home/data/repositories/home_repository_impl.dart';
-import 'package:project_glass/features/home/domain/repositories/home_repository.dart';
-import 'package:project_glass/features/home/domain/usecases/add_contact_usecase.dart';
-import 'package:project_glass/features/home/domain/usecases/add_contact_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/edit_contact_usecase.dart';
-import 'package:project_glass/features/home/domain/usecases/edit_contact_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/get_contacts_usecase.dart';
-import 'package:project_glass/features/home/domain/usecases/get_contacts_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/logout_user_usecase.dart';
-import 'package:project_glass/features/home/domain/usecases/logout_user_usecase_impl.dart';
-import 'package:project_glass/features/home/domain/usecases/remove_contact_usecase.dart';
-import 'package:project_glass/features/home/domain/usecases/remove_contact_usecase_impl.dart';
-import 'package:project_glass/features/home/presentation/bloc/home_bloc.dart';
+import 'package:project_glass/features/budgets/data/datasources/budgets_datasources.dart';
+import 'package:project_glass/features/budgets/data/datasources/remote/budgets_datasources_impl.dart';
+import 'package:project_glass/features/budgets/data/repositories/budgets_repository_impl.dart';
+import 'package:project_glass/features/budgets/domain/repositories/budgets_repository.dart';
+import 'package:project_glass/features/budgets/domain/usecases/add_contact_usecase.dart';
+import 'package:project_glass/features/budgets/domain/usecases/add_contact_usecase_impl.dart';
+import 'package:project_glass/features/budgets/domain/usecases/edit_contact_usecase.dart';
+import 'package:project_glass/features/budgets/domain/usecases/edit_contact_usecase_impl.dart';
+import 'package:project_glass/features/budgets/domain/usecases/get_contacts_usecase.dart';
+import 'package:project_glass/features/budgets/domain/usecases/get_contacts_usecase_impl.dart';
+import 'package:project_glass/features/budgets/domain/usecases/logout_user_usecase.dart';
+import 'package:project_glass/features/budgets/domain/usecases/logout_user_usecase_impl.dart';
+import 'package:project_glass/features/budgets/domain/usecases/remove_contact_usecase.dart';
+import 'package:project_glass/features/budgets/domain/usecases/remove_contact_usecase_impl.dart';
+import 'package:project_glass/features/budgets/presentation/bloc/orders_bloc.dart';
 import 'package:project_glass/features/login/data/datasources/login_datasources.dart';
 import 'package:project_glass/features/login/data/datasources/remote/login_datasources_impl.dart';
 import 'package:project_glass/features/login/data/repositories/login_repository_impl.dart';
@@ -55,8 +55,8 @@ class AppInjector {
         () => LoginDatasourcesImpl(getIt()));
     getIt.registerLazySingleton<RegisterDataSources>(
         () => RegisterDatasourcesImpl(getIt(), getIt()));
-    getIt.registerLazySingleton<HomeDataSources>(
-        () => HomeDataSourcesImpl(getIt(), getIt(), getIt()));
+    getIt.registerLazySingleton<BudgetsDataSources>(
+        () => BudgetsDataSourcesImpl(getIt(), getIt(), getIt()));
 
     // Repositories
     getIt.registerLazySingleton<SplashRepository>(
@@ -65,8 +65,8 @@ class AppInjector {
         () => LoginRepositoryImpl(getIt()));
     getIt.registerLazySingleton<RegisterRepository>(
         () => RegisterRepositoryImpl(getIt()));
-    getIt.registerLazySingleton<HomeRepository>(
-        () => HomeRepositoryImpl(getIt()));
+    getIt.registerLazySingleton<BudgetsRepository>(
+        () => BudgetsRepositoryImpl(getIt()));
 
     // Usecases
 
@@ -95,6 +95,6 @@ class AppInjector {
     getIt.registerFactory(() => LoginBloc(getIt()));
     getIt.registerFactory(() => RegisterBloc(getIt()));
     getIt.registerFactory(
-        () => HomeBloc(getIt(), getIt(), getIt(), getIt(), getIt()));
+        () => BudgetsBloc(getIt(), getIt(), getIt(), getIt(), getIt()));
   }
 }
